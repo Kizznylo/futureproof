@@ -1,5 +1,7 @@
 "use client"
-export const dynamic = 'force-dynamic'
+
+export const dynamic = "force-dynamic"
+
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -44,8 +46,14 @@ export default function JobsPage() {
     salary_range: "",
     job_url: "",
     notes: "",
-    applied_date: new Date().toISOString().split("T")[0],
+    applied_date: "", // ← fixed: no new Date() here
   })
+
+  // Set today's date only on the client
+  useEffect(() => {
+    const today = new Date().toISOString().split("T")[0]
+    setForm((prev) => ({ ...prev, applied_date: today }))
+  }, [])
 
   useEffect(() => {
     const load = async () => {
@@ -99,6 +107,9 @@ export default function JobsPage() {
 
       setApplications([data.application, ...applications])
       setShowForm(false)
+
+      // Reset form + set today's date again
+      const today = new Date().toISOString().split("T")[0]
       setForm({
         company: "",
         position: "",
@@ -107,7 +118,7 @@ export default function JobsPage() {
         salary_range: "",
         job_url: "",
         notes: "",
-        applied_date: new Date().toISOString().split("T")[0],
+        applied_date: today,
       })
     } catch (err: any) {
       setError(err.message)
