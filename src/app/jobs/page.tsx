@@ -46,7 +46,7 @@ export default function JobsPage() {
     salary_range: "",
     job_url: "",
     notes: "",
-    applied_date: "", // fixed - no new Date() here
+    applied_date: "", // ← MUST be empty string
   })
 
   // Set today's date only on the client
@@ -108,7 +108,6 @@ export default function JobsPage() {
       setApplications([data.application, ...applications])
       setShowForm(false)
 
-      // Reset form + set today's date again
       const today = new Date().toISOString().split("T")[0]
       setForm({
         company: "",
@@ -175,7 +174,6 @@ export default function JobsPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
-      {/* Header */}
       <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <Link href="/dashboard" className="font-bold text-lg text-slate-900 dark:text-white">
@@ -206,7 +204,6 @@ export default function JobsPage() {
           </button>
         </div>
 
-        {/* Add Form */}
         {showForm && (
           <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 mb-6">
             <h2 className="font-semibold text-slate-900 dark:text-white mb-4">New Application</h2>
@@ -287,7 +284,6 @@ export default function JobsPage() {
           </div>
         )}
 
-        {/* Applications List */}
         {applications.length === 0 ? (
           <div className="text-center py-16 text-slate-400 dark:text-slate-500">
             <p className="text-lg mb-2">No applications yet</p>
