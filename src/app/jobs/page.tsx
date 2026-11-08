@@ -28,6 +28,19 @@ const STATUS_OPTIONS = [
   { value: "withdrawn", label: "Withdrawn", color: "bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300" },
 ]
 
+// Safe date component to prevent SSR hydration mismatches
+function FormattedDate({ dateString }: { dateString: string }) {
+  const [formatted, setFormatted] = useState("")
+
+  useEffect(() => {
+    if (dateString) {
+      setFormatted(new Date(dateString).toLocaleDateString())
+    }
+  }, [dateString])
+
+  return <span>{formatted || dateString}</span>
+}
+
 export default function JobsPage() {
   const router = useRouter()
   const supabase = createClient()
@@ -46,7 +59,7 @@ export default function JobsPage() {
     salary_range: "",
     job_url: "",
     notes: "",
-    applied_date: "", // ← MUST be empty string
+    applied_date: "", // Safe static initial state
   })
 
   // Set today's date only on the client
@@ -311,7 +324,7 @@ export default function JobsPage() {
                         <span className="text-xs text-slate-400">{app.location}</span>
                       )}
                       <span className="text-xs text-slate-400">
-                        {new Date(app.applied_date).toLocaleDateString()}
+                        <FormattedDate dateString={app.applied_date} />
                       </span>
                     </div>
 
