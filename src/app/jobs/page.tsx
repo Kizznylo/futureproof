@@ -46,7 +46,7 @@ export default function JobsPage() {
     salary_range: "",
     job_url: "",
     notes: "",
-    applied_date: "", // ← fixed: no new Date() here
+    applied_date: "", // fixed - no new Date() here
   })
 
   // Set today's date only on the client
